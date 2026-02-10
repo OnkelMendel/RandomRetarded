@@ -9,3 +9,19 @@ Get-ChildItem "HKLM:\SOFTWARE\Microsoft\PolicyManager\current\user\OneDrive" -Er
 
 Stop-Process -Name OneDrive -Force -ErrorAction SilentlyContinue
 Start-Process "$env:LOCALAPPDATA\Microsoft\OneDrive\OneDrive.exe" -ArgumentList "/reset"
+
+$exe = @(
+  "$env:LOCALAPPDATA\Microsoft\OneDrive\OneDrive.exe",
+  "$env:ProgramFiles\Microsoft OneDrive\OneDrive.exe",
+  "${env:ProgramFiles(x86)}\Microsoft OneDrive\OneDrive.exe"
+) | Where-Object { Test-Path $_ } | Select-Object -First 1
+
+$exe
+
+
+
+Stop-Process -Name OneDrive -Force -ErrorAction SilentlyContinue
+Start-Process $exe -ArgumentList "/reset"
+Start-Sleep 3
+Start-Process $exe
+
