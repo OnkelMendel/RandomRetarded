@@ -1,0 +1,11 @@
+# klassische Policy (Device / Machine)
+Get-ChildItem "HKLM:\SOFTWARE\Policies\Microsoft\OneDrive" -ErrorAction SilentlyContinue
+Get-ChildItem "HKLM:\SOFTWARE\Policies\Microsoft\OneDrive\TenantAutoMount" -ErrorAction SilentlyContinue
+
+# MDM PolicyManager (Intune/ADMX ingestion)
+Get-ChildItem "HKLM:\SOFTWARE\Microsoft\PolicyManager\current\device\OneDrive" -ErrorAction SilentlyContinue
+Get-ChildItem "HKLM:\SOFTWARE\Microsoft\PolicyManager\current\user\OneDrive" -ErrorAction SilentlyContinue
+
+
+Stop-Process -Name OneDrive -Force -ErrorAction SilentlyContinue
+Start-Process "$env:LOCALAPPDATA\Microsoft\OneDrive\OneDrive.exe" -ArgumentList "/reset"
